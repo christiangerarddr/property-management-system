@@ -63,7 +63,7 @@ class PropertyImageServiceTest extends TestCase
         $this->assertNull(PropertyImage::find($propertyImage->id)); // Assert that the PropertyImage is deleted
     }
 
-    public function test_list_amenities()
+    public function test_list_property_images()
     {
         PropertyImage::factory()->count(5)->create(['image_name' => 'Sample PropertyImage']);
         PropertyImage::factory()->count(3)->create(['image_name' => 'Another PropertyImage']);
@@ -76,7 +76,7 @@ class PropertyImageServiceTest extends TestCase
         }
     }
 
-    public function test_list_amenities_with_pagination()
+    public function test_list_property_images_with_pagination()
     {
         PropertyImage::factory()->count(15)->create(['image_name' => 'Sample City']);
 

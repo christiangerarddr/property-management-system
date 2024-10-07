@@ -17,12 +17,11 @@ class OwnerFactory extends Factory
     public function definition(): array
     {
         return [
-            'block_number' => $this->faker->numberBetween(1, 100),
-            'lot_number' => $this->faker->numberBetween(1, 100),
-            'street' => $this->faker->streetAddress,
-            'village' => $this->faker->streetName,
-            'city' => $this->faker->city,
-            'region' => $this->faker->state,
+            'name' => $this->faker->name(),
+            'contact_info' => $this->faker->randomElement([
+                $this->faker->email(),
+                $this->faker->phoneNumber()
+            ]),
         ];
     }
 }
