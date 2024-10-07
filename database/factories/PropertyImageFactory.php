@@ -16,13 +16,11 @@ class PropertyImageFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->word();
+
         return [
-            'block_number' => $this->faker->numberBetween(1, 100),
-            'lot_number' => $this->faker->numberBetween(1, 100),
-            'street' => $this->faker->streetAddress,
-            'village' => $this->faker->streetName,
-            'city' => $this->faker->city,
-            'region' => $this->faker->state,
+            'image_name' => $name,
+            'image_path' => $name . '.jpg',
         ];
     }
 }

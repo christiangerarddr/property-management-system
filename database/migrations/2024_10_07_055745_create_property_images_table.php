@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('property_id')
+                ->nullable()
                 ->constrained()
                 ->onDelete('cascade');
+
             $table->string('image_path');
+            $table->string('image_name')->nullable();
 
             $table->timestamps();
         });
