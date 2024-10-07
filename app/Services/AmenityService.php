@@ -13,6 +13,17 @@ class AmenityService
         return Amenity::create($data);
     }
 
+    public function createMultipleAmenities(array $data, int $propertyID): array
+    {
+        $amenities = [];
+
+        foreach($data as $amenity) {
+            $amenities[] = $this->createAmenity(array_merge($amenity, ['property_id' => $propertyID]));
+        }
+
+        return $amenities;
+    }
+
     public function getAmenity(int $id): Amenity
     {
         return Amenity::find($id);

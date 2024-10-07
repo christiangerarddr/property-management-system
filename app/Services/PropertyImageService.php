@@ -13,6 +13,17 @@ class PropertyImageService
         return PropertyImage::create($data);
     }
 
+    public function createMultiplePropertyImage(array $data, int $propertyID): array
+    {
+        $images = [];
+
+        foreach($data as $image) {
+            $images[] = $this->createPropertyImage(array_merge($image, ['property_id' => $propertyID]));
+        }
+
+        return $images;
+    }
+
     public function getPropertyImage(int $id): PropertyImage
     {
         return PropertyImage::find($id);

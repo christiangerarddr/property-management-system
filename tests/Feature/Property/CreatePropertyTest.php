@@ -7,12 +7,13 @@ use Tests\TestCase;
 
 class CreatePropertyTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_create_property(): void
+    public array $data;
+
+    protected function setUp(): void
     {
-        $data = [
+        parent::setUp();
+
+        $this->data = [
             'name' => 'Beautiful House',
             'description' => 'A lovely place to live.',
             'price' => 2300000.00,
@@ -42,31 +43,71 @@ class CreatePropertyTest extends TestCase
                     'feature' => 'Bar',
                     'description' => 'Community Bar Area'
                 ]
+            ],
+            'owner' => [
+                'name' => 'John Doe',
+                'contact_info' => 'johndoe@example.com',
+            ],
+            'property_images' => [
+                [
+                    'image_name' => 'Swimming Pool',
+                    'image_path' => 'swimming-pool.jpg',
+                ],
+                [
+                    'image_name' => 'Bar',
+                    'image_path' => 'bar.jpg'
+                ]
+            ],
+            'amenities' => [
+                [
+                    'name' => 'Sample Amenity',
+                    'description' => 'Sample Amenity',
+                ],
+                [
+                    'name' => 'Another Amenity',
+                    'description' => 'Another Amenity'
+                ]
             ]
         ];
+    }
 
-        $response = $this->post('/property', $data);
+    public function test_create_property(): void
+    {
+        $response = $this->post('/property', $this->data);
 
         $responseJSON = $response->json();
 
         $this->assertDatabaseHas('locations', [
-            'block_number' => $data['location']['block_number'],
-            'lot_number' => $data['location']['lot_number'],
-            'street' => $data['location']['street'],
-            'village' => $data['location']['village'],
-            'city' => $data['location']['city'],
-            'region' => $data['location']['region'],
+            'block_number' => $this->data['location']['block_number'],
+            'lot_number' => $this->data['location']['lot_number'],
+            'street' => $this->data['location']['street'],
+            'village' => $this->data['location']['village'],
+            'city' => $this->data['location']['city'],
+            'region' => $this->data['location']['region'],
         ]);
 
         $this->assertDatabaseHas('properties', [
             'id' => $responseJSON['id'],
-            'name' => $data['name'],
-            'description' => $data['description'],
-            'price' => $data['price'],
-            'size' => $data['size'],
+            'name' => $this->data['name'],
+            'description' => $this->data['description'],
+            'price' => $this->data['price'],
+            'size' => $this->data['size'],
         ]);
 
         $this->assertDatabaseHas('property_features', [
+            'property_id' => $responseJSON['id'],
+        ]);
+
+        $this->assertDatabaseHas('owners', [
+            'name' => $this->data['owner']['name'],
+            'contact_info' => $this->data['owner']['contact_info'],
+        ]);
+
+        $this->assertDatabaseHas('property_images', [
+            'property_id' => $responseJSON['id'],
+        ]);
+
+        $this->assertDatabaseHas('amenities', [
             'property_id' => $responseJSON['id'],
         ]);
 
