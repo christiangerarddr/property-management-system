@@ -4,6 +4,7 @@ namespace Tests\Unit\App\Services;
 
 use App\Models\Location;
 use App\Services\LocationService;
+use Illuminate\Contracts\Pagination\Paginator;
 use Tests\TestCase;
 
 class LocationServiceTest extends TestCase
@@ -62,7 +63,7 @@ class LocationServiceTest extends TestCase
         $deleted = $this->locationService->deleteLocation($location->id);
 
         $this->assertTrue($deleted);
-        $this->assertNull(Location::find($location->id)); // Assert that the location is deleted
+        $this->assertNull(Location::find($location->id));
     }
 
     public function test_list_locations()
@@ -84,8 +85,8 @@ class LocationServiceTest extends TestCase
 
         $locations = $this->locationService->listLocations(['city' => 'Sample City'], true, 5);
 
-        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\Paginator::class, $locations);
-        $this->assertCount(5, $locations->items()); // Assert that it returns 5 items per page
-        $this->assertEquals(15, $locations->total()); // Assert total count is correct
+        $this->assertInstanceOf(Paginator::class, $locations);
+        $this->assertCount(5, $locations->items());
+        $this->assertEquals(15, $locations->total());
     }
 }
