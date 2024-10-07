@@ -18,7 +18,7 @@ class PropertyFeatureFactory extends Factory
     {
         return [
             'feature' => $this->faker->word,
-            'description' => $this->faker->word
+            'description' => $this->faker->word,
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\PropertyImage;
-use App\Models\Property;
 use Illuminate\Contracts\Pagination\Paginator;
 use Tests\TestCase;
 
@@ -14,14 +13,14 @@ class PropertyImageServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->propertyImageService = new PropertyImageService();
+        $this->propertyImageService = new PropertyImageService;
     }
 
     public function test_create_property_image()
     {
         $data = [
             'image_name' => 'Test Image',
-            'image_path' => '/test/image.jpg'
+            'image_path' => '/test/image.jpg',
         ];
 
         $propertyImage = $this->propertyImageService->createPropertyImage($data);

@@ -15,6 +15,6 @@ class Location extends Model
         'street',
         'village',
         'city',
-        'region'
+        'region',
     ];
 }

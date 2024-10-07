@@ -14,7 +14,7 @@ class LocationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->locationService = new LocationService();
+        $this->locationService = new LocationService;
     }
 
     public function test_create_location()

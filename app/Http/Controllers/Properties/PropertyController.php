@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Properties;
 
 use App\Http\Controllers\Controller;
-use App\Models\Owner;
 use App\Services\AmenityService;
 use App\Services\Contracts\PropertyServiceInterface;
 use App\Services\LocationService;
 use App\Services\OwnerService;
 use App\Services\PropertyFeatureService;
 use App\Services\PropertyImageService;
-use App\Services\PropertyService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,10 +16,15 @@ use Illuminate\Support\Facades\DB;
 class PropertyController extends Controller
 {
     protected PropertyServiceInterface $propertyService;
+
     protected LocationService $locationService;
+
     protected PropertyFeatureService $propertyFeatureService;
+
     protected PropertyImageService $propertyImageService;
+
     protected AmenityService $amenityService;
+
     protected OwnerService $ownerService;
 
     public function __construct(
@@ -40,7 +43,8 @@ class PropertyController extends Controller
         $this->ownerService = $ownerService;
     }
 
-    private function validator(Request $request){
+    private function validator(Request $request)
+    {
         return $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -102,7 +106,7 @@ class PropertyController extends Controller
             $features,
             $images,
             $amenities,
-            $owner
+            $owner,
         ];
     }
 }

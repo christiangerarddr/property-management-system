@@ -20,7 +20,7 @@ class PropertyImageFactory extends Factory
 
         return [
             'image_name' => $name,
-            'image_path' => $name . '.jpg',
+            'image_path' => $name.'.jpg',
         ];
     }
 }

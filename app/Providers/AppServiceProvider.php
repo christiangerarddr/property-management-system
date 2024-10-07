@@ -18,12 +18,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PropertyServiceInterface::class,PropertyService::class);
-        $this->app->bind(PropertyFeatureService::class,PropertyFeatureService::class);
-        $this->app->bind(PropertyImage::class,PropertyImage::class);
-        $this->app->bind(OwnerService::class,OwnerService::class);
-        $this->app->bind(AmenityService::class,AmenityService::class);
-        $this->app->bind(LocationService::class,LocationService::class);
+        $this->app->bind(PropertyServiceInterface::class, PropertyService::class);
+        $this->app->bind(PropertyFeatureService::class, PropertyFeatureService::class);
+        $this->app->bind(PropertyImage::class, PropertyImage::class);
+        $this->app->bind(OwnerService::class, OwnerService::class);
+        $this->app->bind(AmenityService::class, AmenityService::class);
+        $this->app->bind(LocationService::class, LocationService::class);
     }
 
     /**

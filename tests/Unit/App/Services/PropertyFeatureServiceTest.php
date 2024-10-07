@@ -14,7 +14,7 @@ class PropertyFeatureServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->propertyFeatureService = new PropertyFeatureService();
+        $this->propertyFeatureService = new PropertyFeatureService;
     }
 
     public function test_create_property_feature()

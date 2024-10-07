@@ -17,7 +17,7 @@ class AmenityService
     {
         $amenities = [];
 
-        foreach($data as $amenity) {
+        foreach ($data as $amenity) {
             $amenities[] = $this->createAmenity(array_merge($amenity, ['property_id' => $propertyID]));
         }
 
@@ -40,6 +40,7 @@ class AmenityService
     public function deleteAmenity(int $id): bool
     {
         $amenity = $this->getAmenity($id);
+
         return $amenity->delete();
     }
 
@@ -47,19 +48,19 @@ class AmenityService
     {
         $query = Amenity::query();
 
-        if (!empty($filters['name'])) {
+        if (! empty($filters['name'])) {
             $query->where('name', $filters['name']);
         }
 
-        if (!empty($filters['description'])) {
+        if (! empty($filters['description'])) {
             $query->where('description', $filters['description']);
         }
 
-        if (!empty($filters['property_id'])) {
+        if (! empty($filters['property_id'])) {
             $query->where('property_id', $filters['property_id']);
         }
 
-        if($paginate){
+        if ($paginate) {
             return $query->paginate($perPage);
         }
 

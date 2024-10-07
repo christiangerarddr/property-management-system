@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Amenity;
 use App\Models\Property;
-use App\Services\AmenityService;
 use Illuminate\Contracts\Pagination\Paginator;
 use Tests\TestCase;
 
@@ -15,7 +14,7 @@ class AmenityServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->amenityService = new AmenityService();
+        $this->amenityService = new AmenityService;
     }
 
     public function test_create_amenity()
@@ -25,7 +24,7 @@ class AmenityServiceTest extends TestCase
         $data = [
             'name' => 'Sample Amenity',
             'description' => 'Sample Description',
-            'property_id' => $property->id
+            'property_id' => $property->id,
         ];
 
         $amenity = $this->amenityService->createAmenity($data);

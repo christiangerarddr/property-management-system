@@ -17,7 +17,7 @@ class PropertyImageService
     {
         $images = [];
 
-        foreach($data as $image) {
+        foreach ($data as $image) {
             $images[] = $this->createPropertyImage(array_merge($image, ['property_id' => $propertyID]));
         }
 
@@ -40,6 +40,7 @@ class PropertyImageService
     public function deletePropertyImage(int $id): bool
     {
         $propertyImage = $this->getPropertyImage($id);
+
         return $propertyImage->delete();
     }
 
@@ -47,19 +48,19 @@ class PropertyImageService
     {
         $query = PropertyImage::query();
 
-        if (!empty($filters['image_name'])) {
+        if (! empty($filters['image_name'])) {
             $query->where('image_name', $filters['image_name']);
         }
 
-        if (!empty($filters['image_path'])) {
+        if (! empty($filters['image_path'])) {
             $query->where('image_path', $filters['image_path']);
         }
 
-        if (!empty($filters['property_id'])) {
+        if (! empty($filters['property_id'])) {
             $query->where('property_id', $filters['property_id']);
         }
 
-        if($paginate){
+        if ($paginate) {
             return $query->paginate($perPage);
         }
 

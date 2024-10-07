@@ -29,6 +29,7 @@ class OwnerService
     public function deleteOwner(int $id): bool
     {
         $owner = $this->getOwner($id);
+
         return $owner->delete();
     }
 
@@ -36,15 +37,15 @@ class OwnerService
     {
         $query = Owner::query();
 
-        if (!empty($filters['name'])) {
+        if (! empty($filters['name'])) {
             $query->where('name', $filters['name']);
         }
 
-        if (!empty($filters['contact_info'])) {
+        if (! empty($filters['contact_info'])) {
             $query->where('contact_info', $filters['contact_info']);
         }
 
-        if($paginate){
+        if ($paginate) {
             return $query->paginate($perPage);
         }
 

@@ -12,6 +12,6 @@ class Amenity extends Model
     protected $fillable = [
         'name',
         'description',
-        'property_id'
+        'property_id',
     ];
 }

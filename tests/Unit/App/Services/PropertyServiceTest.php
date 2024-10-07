@@ -14,7 +14,7 @@ class PropertyServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->propertyService = new PropertyService();
+        $this->propertyService = new PropertyService;
     }
 
     public function test_create_property()

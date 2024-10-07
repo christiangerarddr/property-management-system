@@ -20,7 +20,7 @@ class OwnerFactory extends Factory
             'name' => $this->faker->name(),
             'contact_info' => $this->faker->randomElement([
                 $this->faker->email(),
-                $this->faker->phoneNumber()
+                $this->faker->phoneNumber(),
             ]),
         ];
     }

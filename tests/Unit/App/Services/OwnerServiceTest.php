@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Owner;
-use App\Models\Property;
 use Illuminate\Contracts\Pagination\Paginator;
 use Tests\TestCase;
 
@@ -14,14 +13,14 @@ class OwnerServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ownerService = new OwnerService();
+        $this->ownerService = new OwnerService;
     }
 
     public function test_create_owner()
     {
         $data = [
             'name' => 'Test Owner',
-            'contact_info' => 'testowneremail@test.com'
+            'contact_info' => 'testowneremail@test.com',
         ];
 
         $owner = $this->ownerService->createOwner($data);

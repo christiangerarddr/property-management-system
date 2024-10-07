@@ -37,12 +37,12 @@ class CreatePropertyTest extends TestCase
             'features' => [
                 [
                     'feature' => 'Swimming Pool',
-                    'description' => 'A large swimming pool'
+                    'description' => 'A large swimming pool',
                 ],
                 [
                     'feature' => 'Bar',
-                    'description' => 'Community Bar Area'
-                ]
+                    'description' => 'Community Bar Area',
+                ],
             ],
             'owner' => [
                 'name' => 'John Doe',
@@ -55,8 +55,8 @@ class CreatePropertyTest extends TestCase
                 ],
                 [
                     'image_name' => 'Bar',
-                    'image_path' => 'bar.jpg'
-                ]
+                    'image_path' => 'bar.jpg',
+                ],
             ],
             'amenities' => [
                 [
@@ -65,9 +65,9 @@ class CreatePropertyTest extends TestCase
                 ],
                 [
                     'name' => 'Another Amenity',
-                    'description' => 'Another Amenity'
-                ]
-            ]
+                    'description' => 'Another Amenity',
+                ],
+            ],
         ];
     }
 

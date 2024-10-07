@@ -29,6 +29,7 @@ class LocationService
     public function deleteLocation(int $id): bool
     {
         $location = $this->getLocation($id);
+
         return $location->delete();
     }
 
@@ -36,15 +37,15 @@ class LocationService
     {
         $query = Location::query();
 
-        if (!empty($filters['city'])) {
+        if (! empty($filters['city'])) {
             $query->where('city', $filters['city']);
         }
 
-        if (!empty($filters['region'])) {
+        if (! empty($filters['region'])) {
             $query->where('region', $filters['region']);
         }
 
-        if($paginate){
+        if ($paginate) {
             return $query->paginate($perPage);
         }
 
