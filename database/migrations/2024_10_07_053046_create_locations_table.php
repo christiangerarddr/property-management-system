@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
+            $table->integer('block_number');
+            $table->integer('lot_number');
+            $table->string('street');
+            $table->string('village');
+            $table->string('city');
+            $table->string('region');
             $table->timestamps();
         });
     }
