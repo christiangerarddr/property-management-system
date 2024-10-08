@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+
+$header-height: 90px;
+
+$hero-height: calc(100vh - #{$header-height});
+
+#welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .welcome-header {
+        height: $header-height;
+    }
+
+    .welcome-main {
+        .hero-banner {
+            height: $hero-height;
+
+            h1 {
+
+            }
+
+            p {
+
+            }
+        }
+
+        #welcome-pricing {
+
+        }
+    }
+
+    footer {
+
+    }
+}
