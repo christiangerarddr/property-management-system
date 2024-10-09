@@ -37,11 +37,11 @@ class PropertyService implements Contracts\PropertyServiceInterface
     {
         $query = Property::query();
 
-        if (! empty($filters['status'])) {
+        if (isset($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        if (! empty($filters['property_type'])) {
+        if (isset($filters['property_type'])) {
             $query->where('property_type', $filters['property_type']);
         }
 
@@ -61,7 +61,7 @@ class PropertyService implements Contracts\PropertyServiceInterface
             $query->where('size', '<=', $filters['max_size']);
         }
 
-        if (! empty($filters['sort_by'])) {
+        if (isset($filters['sort_by'])) {
             $query->orderBy($filters['sort_by'], $filters['sort_order'] ?? 'asc');
         }
 

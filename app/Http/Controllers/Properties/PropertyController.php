@@ -120,8 +120,8 @@ class PropertyController extends Controller
 
     public function index()
     {
-        $this->propertyService->listProperties([]);
+        $properties = $this->propertyService->listProperties([], true, 3);
 
-        return Inertia::render('Property/Index');
+        return Inertia::render('Property/Index', ['properties' => $properties]);
     }
 }
