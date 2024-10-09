@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Helpers\MigrationHelper;
 
 return new class extends Migration
 {
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->string('village');
             $table->string('city');
             $table->string('region');
-            $table->timestamps();
+            MigrationHelper::addTimestampsWithUserColumns($table);
         });
     }
 

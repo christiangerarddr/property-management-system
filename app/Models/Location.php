@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Location extends Model
+class Location extends BaseModel
 {
     use HasFactory;
 
@@ -16,5 +15,8 @@ class Location extends Model
         'village',
         'city',
         'region',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 }

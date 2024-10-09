@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Property extends Model
+class Property extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
@@ -80,6 +79,9 @@ class Property extends Model
         'parking_spaces',
         'utilities_included',
         'lease_terms',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function owner(): BelongsTo

@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Amenity extends Model
+class Amenity extends BaseModel
 {
     use HasFactory;
 
@@ -13,5 +12,8 @@ class Amenity extends Model
         'name',
         'description',
         'property_id',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 }

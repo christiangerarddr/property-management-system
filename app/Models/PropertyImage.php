@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class PropertyImage extends Model
+class PropertyImage extends BaseModel
 {
     use HasFactory;
 
@@ -13,5 +12,8 @@ class PropertyImage extends Model
         'property_id',
         'image_path',
         'image_name',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 }
