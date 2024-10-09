@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\Response;
+use App\Http\Responses\ResponseInterface;
 use App\Models\PropertyImage;
 use App\Services\AmenityService;
 use App\Services\Contracts\PropertyServiceInterface;
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(ResponseInterface::class, Response::class);
         $this->app->bind(PropertyServiceInterface::class, PropertyService::class);
         $this->app->bind(PropertyFeatureService::class, PropertyFeatureService::class);
         $this->app->bind(PropertyImage::class, PropertyImage::class);

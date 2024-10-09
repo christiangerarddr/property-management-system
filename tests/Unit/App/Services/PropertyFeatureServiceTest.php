@@ -55,7 +55,7 @@ class PropertyFeatureServiceTest extends TestCase
             'description' => 'Updated description',
         ];
 
-        $updatedFeature = $this->propertyFeatureService->updateLocation($feature->id, $data);
+        $updatedFeature = $this->propertyFeatureService->updatePropertyFeature($feature->id, $data);
 
         $this->assertEquals('Updated Feature', $updatedFeature->feature);
         $this->assertEquals('Updated description', $updatedFeature->description);

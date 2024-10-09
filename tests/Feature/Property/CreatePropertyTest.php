@@ -3,6 +3,7 @@
 namespace Tests\Feature\Property;
 
 use App\Models\Property;
+use App\Models\User;
 use Tests\TestCase;
 
 class CreatePropertyTest extends TestCase
@@ -73,6 +74,8 @@ class CreatePropertyTest extends TestCase
 
     public function test_create_property(): void
     {
+        $this->actingAs(User::factory()->create());
+
         $response = $this->post('/property', $this->data);
 
         $responseJSON = $response->json();
@@ -87,7 +90,6 @@ class CreatePropertyTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('properties', [
-            'id' => $responseJSON['id'],
             'name' => $this->data['name'],
             'description' => $this->data['description'],
             'price' => $this->data['price'],
@@ -95,20 +97,23 @@ class CreatePropertyTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('property_features', [
-            'property_id' => $responseJSON['id'],
+            'feature' => 'Swimming Pool',
+            'description' => 'A large swimming pool',
         ]);
 
         $this->assertDatabaseHas('owners', [
-            'name' => $this->data['owner']['name'],
-            'contact_info' => $this->data['owner']['contact_info'],
+            'name' => 'John Doe',
+            'contact_info' => 'johndoe@example.com',
         ]);
 
         $this->assertDatabaseHas('property_images', [
-            'property_id' => $responseJSON['id'],
+            'image_name' => 'Swimming Pool',
+            'image_path' => 'swimming-pool.jpg',
         ]);
 
         $this->assertDatabaseHas('amenities', [
-            'property_id' => $responseJSON['id'],
+            'name' => 'Sample Amenity',
+            'description' => 'Sample Amenity',
         ]);
 
         $response->assertStatus(201);

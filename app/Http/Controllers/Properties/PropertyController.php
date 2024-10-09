@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Properties;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\ResponseInterface;
 use App\Services\AmenityService;
 use App\Services\Contracts\PropertyServiceInterface;
 use App\Services\LocationService;
@@ -11,7 +12,9 @@ use App\Services\PropertyFeatureService;
 use App\Services\PropertyImageService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class PropertyController extends Controller
 {
@@ -27,7 +30,10 @@ class PropertyController extends Controller
 
     protected OwnerService $ownerService;
 
+    protected ResponseInterface $response;
+
     public function __construct(
+        ResponseInterface $response,
         PropertyServiceInterface $propertyService,
         LocationService $locationService,
         PropertyFeatureService $propertyFeatureService,
@@ -35,6 +41,7 @@ class PropertyController extends Controller
         AmenityService $amenityService,
         OwnerService $ownerService,
     ) {
+        $this->response = $response;
         $this->propertyService = $propertyService;
         $this->locationService = $locationService;
         $this->propertyFeatureService = $propertyFeatureService;
@@ -99,8 +106,7 @@ class PropertyController extends Controller
             logger()->error(json_encode($data, JSON_PRETTY_PRINT));
         }
 
-        //TODO: Create Standard Response Structure, Property Meta Aggregator
-        return [
+        $data = [
             $location,
             $property,
             $features,
@@ -108,5 +114,14 @@ class PropertyController extends Controller
             $amenities,
             $owner,
         ];
+
+        return $this->response->success($data, 'Property created!', 201);
+    }
+
+    public function index()
+    {
+        $this->propertyService->listProperties([]);
+
+        return Inertia::render('Property/Index');
     }
 }
