@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Properties\PropertyController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,4 +23,5 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('property', PropertyController::class);
+    Route::get('properties', [PropertyController::class, 'listProperties'])->name('properties.list');
 });

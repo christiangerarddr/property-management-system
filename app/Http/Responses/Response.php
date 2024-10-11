@@ -24,7 +24,7 @@ class Response implements ResponseInterface
         ], $statusCode);
     }
 
-    public static function response(array $data, int $statusCode = 200): JsonResponse
+    public static function json(mixed $data, int $statusCode = 200): JsonResponse
     {
         return response()->json($data, $statusCode);
     }

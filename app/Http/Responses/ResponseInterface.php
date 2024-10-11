@@ -10,5 +10,5 @@ interface ResponseInterface
 
     public static function error($data = null, string $message = 'An error occurred', int $statusCode = 400): JsonResponse;
 
-    public static function response(array $data, int $statusCode = 200): JsonResponse;
+    public static function json(mixed $data, int $statusCode = 200): JsonResponse;
 }
