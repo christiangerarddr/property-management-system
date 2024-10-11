@@ -4,15 +4,9 @@ namespace App\Http\Controllers\Properties;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ResponseInterface;
-use App\Services\AmenityService;
 use App\Services\Contracts\PropertyServiceInterface;
-use App\Services\LocationService;
-use App\Services\OwnerService;
-use App\Services\PropertyFeatureService;
-use App\Services\PropertyImageService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -20,34 +14,14 @@ class PropertyController extends Controller
 {
     protected PropertyServiceInterface $propertyService;
 
-    protected LocationService $locationService;
-
-    protected PropertyFeatureService $propertyFeatureService;
-
-    protected PropertyImageService $propertyImageService;
-
-    protected AmenityService $amenityService;
-
-    protected OwnerService $ownerService;
-
     protected ResponseInterface $response;
 
     public function __construct(
         ResponseInterface $response,
-        PropertyServiceInterface $propertyService,
-        LocationService $locationService,
-        PropertyFeatureService $propertyFeatureService,
-        PropertyImageService $propertyImageService,
-        AmenityService $amenityService,
-        OwnerService $ownerService,
+        PropertyServiceInterface $propertyService
     ) {
         $this->response = $response;
         $this->propertyService = $propertyService;
-        $this->locationService = $locationService;
-        $this->propertyFeatureService = $propertyFeatureService;
-        $this->propertyImageService = $propertyImageService;
-        $this->amenityService = $amenityService;
-        $this->ownerService = $ownerService;
     }
 
     private function validator(Request $request)
@@ -88,34 +62,22 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $data = $this->validator($request);
+        $property = [];
 
         DB::beginTransaction();
 
         try {
-            $location = $this->locationService->createLocation($data['location']);
-            $property = $this->propertyService->createProperty(array_merge($data, ['location_id' => $location->id]));
-            $features = $this->propertyFeatureService->createMultiplePropertyFeature($data['features'], $property->id);
-            $images = $this->propertyImageService->createMultiplePropertyImage($data['property_images'], $property->id);
-            $amenities = $this->amenityService->createMultipleAmenities($data['amenities'], $property->id);
-            $owner = $this->ownerService->createOwner($data['owner']);
+            $property = $this->propertyService->createProperty($data);
 
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
+
             logger()->error($exception->getMessage());
             logger()->error(json_encode($data, JSON_PRETTY_PRINT));
         }
 
-        $data = [
-            $location,
-            $property,
-            $features,
-            $images,
-            $amenities,
-            $owner,
-        ];
-
-        return $this->response->success($data, 'Property created!', 201);
+        return $this->response->success($property, 'Property created!', 201);
     }
 
     public function index()
