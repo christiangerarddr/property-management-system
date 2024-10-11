@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from 'vue';
-import PropertyTypeHelper from "@/Helpers/PropertyTypeHelper.js";
-import PriceFormatHelper from "@/Helpers/PriceFormatHelper.js";
+import PropertyTypeHelper from '@/Helpers/PropertyTypeHelper.js';
+import PriceFormatHelper from '@/Helpers/PriceFormatHelper.js';
 
 const props = defineProps({
     property: {
         type: Object,
-        required: true
+        required: true,
     },
 });
 
@@ -16,8 +16,7 @@ const propertyType = computed(() => {
 
 const propertyPrice = computed(() => {
     return PriceFormatHelper.formatPrice(props.property.price, 'PHP');
-})
-
+});
 </script>
 
 <template>
@@ -27,10 +26,18 @@ const propertyPrice = computed(() => {
             <p class="text-gray-700">{{ $props.property.description }}</p>
         </div>
         <div class="mt-6">
-            <p class="text-gray-400 text-sm font-light mt-auto">Type: {{ propertyType }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Price: {{ propertyPrice }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Size: {{ $props.property.size }} sqm</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Bathroom: {{ $props.property.bathrooms }}</p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Type: {{ propertyType }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Price: {{ propertyPrice }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Size: {{ $props.property.size }} sqm
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Bathroom: {{ $props.property.bathrooms }}
+            </p>
         </div>
     </div>
 </template>
