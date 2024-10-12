@@ -3,14 +3,55 @@
 namespace App\Services;
 
 use App\Models\Property;
+use DB;
+use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 class PropertyService implements Contracts\PropertyServiceInterface
 {
+    protected LocationService $locationService;
+
+    protected PropertyFeatureService $propertyFeatureService;
+
+    protected PropertyImageService $propertyImageService;
+
+    protected AmenityService $amenityService;
+
+    protected OwnerService $ownerService;
+
+    public function __construct(
+        LocationService $locationService,
+        PropertyFeatureService $propertyFeatureService,
+        PropertyImageService $propertyImageService,
+        AmenityService $amenityService,
+        OwnerService $ownerService,
+    ) {
+        $this->locationService = $locationService;
+        $this->propertyFeatureService = $propertyFeatureService;
+        $this->propertyImageService = $propertyImageService;
+        $this->amenityService = $amenityService;
+        $this->ownerService = $ownerService;
+    }
+
     public function createProperty(array $data): Property
     {
-        return Property::create($data);
+        DB::beginTransaction();
+        try {
+            $location = $this->locationService->createLocation($data['location']);
+            $property = Property::create(array_merge($data, ['location_id' => $location->id]));
+
+            $this->propertyFeatureService->createMultiplePropertyFeature($data['features'], $property->id);
+            $this->propertyImageService->createMultiplePropertyImage($data['property_images'], $property->id);
+            $this->amenityService->createMultipleAmenities($data['amenities'], $property->id);
+            $this->ownerService->createOwner($data['owner']);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollback();
+            throw $exception;
+        }
+
+        return $property;
     }
 
     public function updateProperty(int $id, array $data): Property
@@ -39,6 +80,10 @@ class PropertyService implements Contracts\PropertyServiceInterface
 
         if (isset($filters['status'])) {
             $query->where('status', $filters['status']);
+        }
+
+        if (isset($filters['name'])) {
+            $query->where('name', $filters['name']);
         }
 
         if (isset($filters['property_type'])) {

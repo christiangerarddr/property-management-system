@@ -31,7 +31,7 @@ class ClearLogs extends Command
             $files = scandir($logsDir);
             foreach ($files as $file) {
                 if (pathinfo($file, PATHINFO_EXTENSION) === 'log') {
-                    file_put_contents("$logsDir/$file", ""); // Clear file content
+                    file_put_contents("$logsDir/$file", ''); // Clear file content
                 }
             }
             $this->info('All log files have been cleared.');

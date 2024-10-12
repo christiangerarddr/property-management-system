@@ -3,23 +3,37 @@
 namespace Tests\Unit\App\Services;
 
 use App\Models\Property;
+use App\Services\AmenityService;
+use App\Services\LocationService;
+use App\Services\OwnerService;
+use App\Services\PropertyFeatureService;
+use App\Services\PropertyImageService;
 use App\Services\PropertyService;
 use Illuminate\Contracts\Pagination\Paginator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 class PropertyServiceTest extends TestCase
 {
     protected PropertyService $propertyService;
 
+    private LocationService|MockObject $locationService;
+
+    private PropertyFeatureService|MockObject $propertyFeatureService;
+
+    private PropertyImageService|MockObject $propertyImageService;
+
+    private AmenityService|MockObject $amenityService;
+
+    private OwnerService|MockObject $ownerService;
+
+    private array $data;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->propertyService = new PropertyService;
-    }
 
-    public function test_create_property()
-    {
-        $data = [
+        $this->data = [
             'name' => 'Beautiful House',
             'description' => 'A lovely place to live.',
             'price' => 2300000.00,
@@ -32,12 +46,108 @@ class PropertyServiceTest extends TestCase
             'property_type' => Property::HOUSE,
             'status' => Property::AVAILABLE,
             'condition' => Property::NEW_CONDITION,
+            'location' => [
+                'block_number' => '12',
+                'lot_number' => '5',
+                'street' => 'Main St',
+                'village' => 'Green Village',
+                'city' => 'Sample City',
+                'region' => 'Sample Region',
+            ],
+            'features' => [
+                [
+                    'feature' => 'Swimming Pool',
+                    'description' => 'A large swimming pool',
+                ],
+                [
+                    'feature' => 'Bar',
+                    'description' => 'Community Bar Area',
+                ],
+            ],
+            'owner' => [
+                'name' => 'John Doe',
+                'contact_info' => 'johndoe@example.com',
+            ],
+            'property_images' => [
+                [
+                    'image_name' => 'Swimming Pool',
+                    'image_path' => 'swimming-pool.jpg',
+                ],
+                [
+                    'image_name' => 'Bar',
+                    'image_path' => 'bar.jpg',
+                ],
+            ],
+            'amenities' => [
+                [
+                    'name' => 'Sample Amenity',
+                    'description' => 'Sample Amenity',
+                ],
+                [
+                    'name' => 'Another Amenity',
+                    'description' => 'Another Amenity',
+                ],
+            ],
         ];
 
-        $property = $this->propertyService->createProperty($data);
+        $this->locationService = new LocationService;
+        $this->propertyFeatureService = new PropertyFeatureService;
+        $this->propertyImageService = new PropertyImageService;
+        $this->amenityService = new AmenityService;
+        $this->ownerService = new OwnerService;
+
+        $this->propertyService = new PropertyService(
+            $this->locationService,
+            $this->propertyFeatureService,
+            $this->propertyImageService,
+            $this->amenityService,
+            $this->ownerService
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function test_create_property()
+    {
+        $property = $this->propertyService->createProperty($this->data);
 
         $this->assertInstanceOf(Property::class, $property);
-        $this->assertEquals($data['name'], $property->name);
+        $this->assertEquals('Beautiful House', $property->name);
+
+        $this->assertDatabaseHas('locations', [
+            'block_number' => '12',
+            'lot_number' => '5',
+            'street' => 'Main St',
+            'village' => 'Green Village',
+            'city' => 'Sample City',
+            'region' => 'Sample Region',
+        ]);
+
+        $this->assertDatabaseHas('properties', [
+            'name' => 'Beautiful House',
+            'price' => 2300000.00,
+        ]);
+
+        $this->assertDatabaseHas('property_features', [
+            'feature' => 'Swimming Pool',
+            'description' => 'A large swimming pool',
+        ]);
+
+        $this->assertDatabaseHas('property_images', [
+            'image_name' => 'Swimming Pool',
+            'image_path' => 'swimming-pool.jpg',
+        ]);
+
+        $this->assertDatabaseHas('amenities', [
+            'name' => 'Sample Amenity',
+            'description' => 'Sample Amenity',
+        ]);
+
+        $this->assertDatabaseHas('owners', [
+            'name' => 'John Doe',
+            'contact_info' => 'johndoe@example.com',
+        ]);
     }
 
     public function test_update_property()

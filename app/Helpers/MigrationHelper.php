@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Database\Schema\Blueprint;
+
 class MigrationHelper
 {
     public static function addTimestampsWithUserColumns(Blueprint $table): void
