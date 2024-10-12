@@ -83,7 +83,7 @@ class PropertyService implements Contracts\PropertyServiceInterface
         }
 
         if (isset($filters['name'])) {
-            $query->where('name', $filters['name']);
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
 
         if (isset($filters['property_type'])) {

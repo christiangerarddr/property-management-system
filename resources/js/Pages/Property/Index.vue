@@ -2,7 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import PropertyCard from '@/Components/PropertyCard.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const props = defineProps({
     properties: {
@@ -16,6 +16,41 @@ const getResults = async (page = 1) => {
     const response = await fetch(`http://property-management-system.test/properties?page=${page}`);
     properties.value = await response.json();
 }
+
+const filterQuery = ref('');
+
+const fetchFilteredProperties = async () => {
+
+    if (!filterQuery.value) {
+        await getResults();
+        return;
+    }
+
+    const response = await fetch(`http://property-management-system.test/property/filter`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': window.laravel.csrfToken
+        },
+        body: JSON.stringify({
+            filters: {
+                name: filterQuery.value
+            }
+        })
+    });
+    properties.value = await response.json();
+}
+
+let timeout = null;
+
+watch(filterQuery, (newQuery, oldQuery) => {
+    if (newQuery !== oldQuery) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fetchFilteredProperties();
+        }, 200);
+    }
+});
 
 </script>
 
@@ -33,6 +68,16 @@ const getResults = async (page = 1) => {
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
                 >
                     <div class="container mx-auto">
+
+                        <div class="mb-4">
+                            <input
+                                type="text"
+                                v-model="filterQuery"
+                                placeholder="Search properties..."
+                                class="border border-gray-300 rounded-md p-2 w-full"
+                            />
+                        </div>
+
                         <div
                             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                         >

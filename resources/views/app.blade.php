@@ -14,6 +14,11 @@
         />
 
         <!-- Scripts -->
+        <script>
+            window.laravel = {
+                csrfToken: '{{ csrf_token() }}'
+            };
+        </script>
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Properties\PropertyController;
+use App\Http\Controllers\Properties\PropertyFiltersController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,4 +25,6 @@ Route::middleware([
 
     Route::resource('property', PropertyController::class);
     Route::get('properties', [PropertyController::class, 'listProperties'])->name('properties.list');
+
+    Route::post('property/filter', [PropertyFiltersController::class, 'filterProperty'])->name('property.filter');
 });
