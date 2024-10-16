@@ -8,17 +8,24 @@ import {
     fetchFilteredProperties,
 } from '@/services/propertyService.js';
 import Toast from '@/Components/Toast.vue';
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import {Link} from "@inertiajs/vue3";
 
 const props = defineProps({
     properties: {
         type: Object,
+        required: true,
     },
+    notification: {
+        type: Object,
+        default: () => ({ visible: false, message: '' }),
+    }
 });
 
 const properties = ref(props.properties);
 const filterQuery = ref('');
-const toastMessage = ref('');
-const isToastVisible = ref(false);
+const toastMessage = ref(props.notification['message']);
+const isToastVisible = ref(props.notification['visible']);
 let timeout = null;
 
 const loadProperties = async (page) => {
@@ -71,6 +78,17 @@ watch(filterQuery, (newQuery, oldQuery) => {
                 >
                     <div class="container mx-auto">
                         <div class="mb-4">
+                            <div class="mb-6 flex align-middle justify-between">
+                            filter box
+                            <Link
+                                :href="route('property.create')"
+                                class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
+                            >
+                                <PrimaryButton>
+                                    Add Property
+                                </PrimaryButton>
+                            </Link>
+                            </div>
                             <input
                                 type="text"
                                 v-model="filterQuery"

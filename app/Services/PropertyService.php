@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Models\Property;
-use DB;
 use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PropertyService implements Contracts\PropertyServiceInterface
 {

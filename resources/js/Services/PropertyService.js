@@ -2,7 +2,7 @@ export const fetchFilteredProperties = async (filterQuery) => {
     if (!filterQuery) return null;
 
     try {
-        const response = await fetch(`/property/filter`, {
+        const response = await fetch(route('property.filter'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export const fetchFilteredProperties = async (filterQuery) => {
 
 export const fetchProperties = async (page = 1) => {
     try {
-        const response = await fetch(`/properties?page=${page}`);
+        const response = await fetch(`${route('properties.list')}?page=${page}`);
         return await response.json();
     } catch (error) {
         console.error('Failed to fetch properties:', error);

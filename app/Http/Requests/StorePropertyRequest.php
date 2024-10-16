@@ -23,6 +23,7 @@ class StorePropertyRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'inertia' => 'boolean',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
