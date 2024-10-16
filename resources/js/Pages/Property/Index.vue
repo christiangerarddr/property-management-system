@@ -7,7 +7,7 @@ import {
     fetchProperties,
     fetchFilteredProperties,
 } from '@/services/propertyService.js';
-import Toast from "@/Components/Toast.vue";
+import Toast from '@/Components/Toast.vue';
 
 const props = defineProps({
     properties: {
@@ -23,9 +23,10 @@ let timeout = null;
 
 const loadProperties = async (page) => {
     try {
-    properties.value = await fetchProperties(page);
+        properties.value = await fetchProperties(page);
     } catch (error) {
-        toastMessage.value = 'An error occurred when trying to fetch your properties';
+        toastMessage.value =
+            'An error occurred when trying to fetch your properties';
         isToastVisible.value = true;
     }
 };
@@ -39,7 +40,8 @@ const loadFilteredProperties = async () => {
     try {
         properties.value = await fetchFilteredProperties(filterQuery.value);
     } catch (error) {
-        toastMessage.value = 'An error occurred when trying to filter your properties';
+        toastMessage.value =
+            'An error occurred when trying to filter your properties';
         isToastVisible.value = true;
     }
 };
@@ -58,7 +60,7 @@ watch(filterQuery, (newQuery, oldQuery) => {
     <AppLayout title="Property">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Property
             </h2>
         </template>
 

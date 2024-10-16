@@ -16,7 +16,7 @@
         <!-- Scripts -->
         <script>
             window.laravel = {
-                csrfToken: '{{ csrf_token() }}'
+                csrfToken: '{{ csrf_token() }}',
             };
         </script>
         @routes

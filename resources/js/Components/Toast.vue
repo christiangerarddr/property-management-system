@@ -1,5 +1,5 @@
 <script setup>
-import {defineEmits } from "vue";
+import { defineEmits } from 'vue';
 
 const props = defineProps({
     message: {
@@ -55,9 +55,9 @@ const closeToast = () => {
 </template>
 
 <style scoped>
-    #toast-general {
-        position: absolute;
-        top: 35px;
-        right: 35px;
-    }
+#toast-general {
+    position: absolute;
+    top: 35px;
+    right: 35px;
+}
 </style>

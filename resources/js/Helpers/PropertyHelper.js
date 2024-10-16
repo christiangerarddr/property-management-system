@@ -48,6 +48,6 @@ export default class PropertyHelper {
     }
 
     static getStatusById(id) {
-    return STATUS[id] || 'Unknown Status';
-}
+        return STATUS[id] || 'Unknown Status';
+    }
 }

@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from 'vue';
-import PriceFormatHelper from "@/Helpers/PriceFormatHelper.js";
-import PropertyHelper from "@/Helpers/PropertyHelper.js";
+import PriceFormatHelper from '@/Helpers/PriceFormatHelper.js';
+import PropertyHelper from '@/Helpers/PropertyHelper.js';
 
 const props = defineProps({
     property: {
         type: Object,
-        required: true
+        required: true,
     },
 });
 
@@ -16,16 +16,15 @@ const propertyType = computed(() => {
 
 const propertyPrice = computed(() => {
     return PriceFormatHelper.formatPrice(props.property.price, 'PHP');
-})
+});
 
 const propertyCondition = computed(() => {
-    return PropertyHelper.getConditionById(props.property.condition)
-})
+    return PropertyHelper.getConditionById(props.property.condition);
+});
 
 const propertyStatus = computed(() => {
-    return PropertyHelper.getStatusById(props.property.status)
-})
-
+    return PropertyHelper.getStatusById(props.property.status);
+});
 </script>
 
 <template>
@@ -35,14 +34,30 @@ const propertyStatus = computed(() => {
             <p class="text-gray-700">{{ $props.property.description }}</p>
         </div>
         <div class="mt-6">
-            <p class="text-gray-400 text-sm font-light mt-auto">Status: {{ propertyStatus }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Type: {{ propertyType }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Condition: {{ propertyCondition }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Date Built: {{ $props.property.date_built }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Price: {{ propertyPrice }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Lease Terms: {{ $props.property.lease_terms + ' months' }}</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Size: {{ $props.property.size }} sqm</p>
-            <p class="text-gray-400 text-sm font-light mt-auto">Bathroom: {{ $props.property.bathrooms }}</p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Status: {{ propertyStatus }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Type: {{ propertyType }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Condition: {{ propertyCondition }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Date Built: {{ $props.property.date_built }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Price: {{ propertyPrice }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Lease Terms: {{ $props.property.lease_terms + ' months' }}
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Size: {{ $props.property.size }} sqm
+            </p>
+            <p class="text-gray-400 text-sm font-light mt-auto">
+                Bathroom: {{ $props.property.bathrooms }}
+            </p>
         </div>
     </div>
 </template>
