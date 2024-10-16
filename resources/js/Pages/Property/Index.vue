@@ -2,7 +2,11 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import PropertyCard from '@/Components/PropertyCard.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
-import {ref, watch} from "vue";
+import { ref, watch } from 'vue';
+import {
+    fetchProperties,
+    fetchFilteredProperties,
+} from '@/services/propertyService.js';
 
 const props = defineProps({
     properties: {
@@ -14,50 +18,27 @@ const properties = ref(props.properties);
 const filterQuery = ref('');
 let timeout = null;
 
-const fetchProperties = async (page = 1) => {
-    try {
-        const response = await fetch(`https://property-management-system.test/properties?page=${page}`);
-        properties.value = await response.json();
-    } catch (error) {
-        console.error('Failed to fetch properties:', error);
-    }
-}
+const loadProperties = async (page) => {
+    properties.value = await fetchProperties(page);
+};
 
-const fetchFilteredProperties = async () => {
-
+const loadFilteredProperties = async () => {
     if (!filterQuery.value) {
-        await fetchProperties();
+        await loadProperties();
         return;
     }
 
-    try {
-        const response = await fetch(`https://property-management-system.test/property/filter`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': window.laravel.csrfToken
-            },
-            body: JSON.stringify({
-                filters: {
-                    name: filterQuery.value
-                }
-            })
-        });
-        properties.value = await response.json();
-    } catch (error) {
-        console.error('Failed to fetch filtered properties:', error);
-    }
-}
+    properties.value = await fetchFilteredProperties(filterQuery.value);
+};
 
 watch(filterQuery, (newQuery, oldQuery) => {
     if (newQuery !== oldQuery) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
-            fetchFilteredProperties();
+            loadFilteredProperties();
         }, 200);
     }
 });
-
 </script>
 
 <template>
@@ -74,7 +55,6 @@ watch(filterQuery, (newQuery, oldQuery) => {
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
                 >
                     <div class="container mx-auto">
-
                         <div class="mb-4">
                             <input
                                 type="text"
@@ -87,19 +67,16 @@ watch(filterQuery, (newQuery, oldQuery) => {
                         <div
                             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                         >
-                            <template
-                                v-for="property in properties.data"
-                            >
+                            <template v-for="property in properties.data">
                                 <PropertyCard :property="property" />
                             </template>
                         </div>
                         <div class="flex justify-center mt-4">
                             <TailwindPagination
                                 :data="properties"
-                                @pagination-change-page="fetchProperties"
+                                @pagination-change-page="loadProperties"
                             />
                         </div>
-
                     </div>
                 </div>
             </div>
