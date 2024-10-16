@@ -11,37 +11,43 @@ const props = defineProps({
 });
 
 const properties = ref(props.properties);
-
-const getResults = async (page = 1) => {
-    const response = await fetch(`http://property-management-system.test/properties?page=${page}`);
-    properties.value = await response.json();
-}
-
 const filterQuery = ref('');
+let timeout = null;
+
+const fetchProperties = async (page = 1) => {
+    try {
+        const response = await fetch(`https://property-management-system.test/properties?page=${page}`);
+        properties.value = await response.json();
+    } catch (error) {
+        console.error('Failed to fetch properties:', error);
+    }
+}
 
 const fetchFilteredProperties = async () => {
 
     if (!filterQuery.value) {
-        await getResults();
+        await fetchProperties();
         return;
     }
 
-    const response = await fetch(`http://property-management-system.test/property/filter`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': window.laravel.csrfToken
-        },
-        body: JSON.stringify({
-            filters: {
-                name: filterQuery.value
-            }
-        })
-    });
-    properties.value = await response.json();
+    try {
+        const response = await fetch(`https://property-management-system.test/property/filter`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': window.laravel.csrfToken
+            },
+            body: JSON.stringify({
+                filters: {
+                    name: filterQuery.value
+                }
+            })
+        });
+        properties.value = await response.json();
+    } catch (error) {
+        console.error('Failed to fetch filtered properties:', error);
+    }
 }
-
-let timeout = null;
 
 watch(filterQuery, (newQuery, oldQuery) => {
     if (newQuery !== oldQuery) {
@@ -90,7 +96,7 @@ watch(filterQuery, (newQuery, oldQuery) => {
                         <div class="flex justify-center mt-4">
                             <TailwindPagination
                                 :data="properties"
-                                @pagination-change-page="getResults"
+                                @pagination-change-page="fetchProperties"
                             />
                         </div>
 
