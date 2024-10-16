@@ -7,6 +7,7 @@ import {
     fetchProperties,
     fetchFilteredProperties,
 } from '@/services/propertyService.js';
+import Toast from "@/Components/Toast.vue";
 
 const props = defineProps({
     properties: {
@@ -16,10 +17,17 @@ const props = defineProps({
 
 const properties = ref(props.properties);
 const filterQuery = ref('');
+const toastMessage = ref('');
+const isToastVisible = ref(false);
 let timeout = null;
 
 const loadProperties = async (page) => {
+    try {
     properties.value = await fetchProperties(page);
+    } catch (error) {
+        toastMessage.value = 'An error occurred when trying to fetch your properties';
+        isToastVisible.value = true;
+    }
 };
 
 const loadFilteredProperties = async () => {
@@ -28,7 +36,12 @@ const loadFilteredProperties = async () => {
         return;
     }
 
-    properties.value = await fetchFilteredProperties(filterQuery.value);
+    try {
+        properties.value = await fetchFilteredProperties(filterQuery.value);
+    } catch (error) {
+        toastMessage.value = 'An error occurred when trying to filter your properties';
+        isToastVisible.value = true;
+    }
 };
 
 watch(filterQuery, (newQuery, oldQuery) => {
@@ -81,5 +94,11 @@ watch(filterQuery, (newQuery, oldQuery) => {
                 </div>
             </div>
         </div>
+
+        <Toast
+            :message="toastMessage"
+            :isVisible="isToastVisible"
+            @close="isToastVisible = false"
+        />
     </AppLayout>
 </template>
